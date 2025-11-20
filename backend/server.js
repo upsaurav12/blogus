@@ -5,7 +5,7 @@ import { clerkMiddleware, requireAuth } from "@clerk/express";
 import postRoutes from "./routers/post.router.js";
 import userRoutes from "./routers/user.router.js"
 import { ensureUser } from "./controllers/user.controller.js";
-const port = import.meta.BACKEND_PORT
+const port = process.env.PORT || 5000;
 
 dotenv.config();
 
