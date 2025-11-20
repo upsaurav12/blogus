@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 0 0% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 0% 10%;
+    --radius: 0.5rem;
+    
+    --shadow-soft: 0 2px 8px hsl(0 0% 0% / 0.06);
+    --shadow-medium: 0 4px 16px hsl(0 0% 0% / 0.08);
+    --shadow-large: 0 8px 32px hsl(0 0% 0% / 0.12);
+  }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 80%;
+    
+    --shadow-soft: 0 2px 8px hsl(0 0% 0% / 0.5);
+    --shadow-medium: 0 4px 16px hsl(0 0% 0% / 0.6);
+    --shadow-large: 0 8px 32px hsl(0 0% 0% / 0.7);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-medium {
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .shadow-large {
+    box-shadow: var(--shadow-large);
+  }
+  
+  /* Medium-style prose */
+  .prose-editor {
+    @apply text-foreground;
+  }
+  
+  .prose-editor h1 {
+    @apply font-display text-5xl font-bold mb-6 leading-tight;
+  }
+  
+  .prose-editor h2 {
+    @apply font-display text-3xl font-bold mt-12 mb-4 leading-tight;
+  }
+  
+  .prose-editor p {
+    @apply text-xl leading-relaxed mb-8 font-light;
+    letter-spacing: -0.003em;
+  }
+  
+  .prose-editor strong {
+    @apply font-semibold;
+  }
+  
+  .prose-editor em {
+    @apply italic;
+  }
+  
+  .prose-editor ul,
+  .prose-editor ol {
+    @apply my-8 pl-8;
+  }
+  
+  .prose-editor ul li {
+    @apply mb-3 text-xl leading-relaxed relative;
+    list-style-type: none;
+  }
+  
+  .prose-editor ul li::before {
+    content: "•";
+    @apply absolute -left-6 text-muted-foreground;
+  }
+  
+  .prose-editor ol {
+    counter-reset: list-counter;
+  }
+  
+  .prose-editor ol li {
+    @apply mb-3 text-xl leading-relaxed relative;
+    counter-increment: list-counter;
+    list-style-type: none;
+  }
+  
+  .prose-editor ol li::before {
+    content: counter(list-counter) ".";
+    @apply absolute -left-8 text-muted-foreground font-medium;
+  }
+  
+  .prose-editor pre {
+    @apply bg-muted rounded-lg p-6 my-8 overflow-x-auto;
+  }
+  
+  .prose-editor code {
+    @apply bg-muted px-2 py-1 rounded text-base font-mono;
+  }
+  
+  .prose-editor pre code {
+    @apply bg-transparent p-0;
+  }
+  
+  .prose-editor blockquote {
+    @apply border-l-4 border-border pl-6 italic text-muted-foreground my-8;
+  }
+  
+  .prose-editor a {
+    @apply underline underline-offset-4 hover:text-muted-foreground transition-colors;
+  }
+  
+  .prose-editor img {
+    @apply rounded-lg my-8 w-full;
+  }
+}
+
+@layer components {
+  .btn-hero {
+    @apply bg-primary text-primary-foreground hover:opacity-90 transition-all duration-300 hover:scale-105;
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .btn-hero:hover {
+    box-shadow: var(--shadow-large);
+  }
+
+  .btn-outline-hero {
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300;
+  }
+
+  .card-elevated {
+    @apply bg-card border border-border rounded-xl transition-all duration-300;
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .card-elevated:hover {
+    box-shadow: var(--shadow-medium);
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600;
+  }
+}
