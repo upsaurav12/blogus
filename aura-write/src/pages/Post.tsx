@@ -140,15 +140,97 @@ Ready to get started? Try using AI for your next blog post and see the differenc
     `
   };
 
-  const tableOfContents = [
-    { id: "introduction", label: "Introduction" },
-    { id: "power", label: "The Power of AI Writing" },
-    { id: "getting-started", label: "Getting Started" },
-    { id: "best-practices", label: "Best Practices" },
-    { id: "applications", label: "Real-World Applications" },
-    { id: "future", label: "The Future" },
-    { id: "conclusion", label: "Conclusion" }
-  ];
+const extractH2 = (html = "") =>
+  [...html.matchAll(/<h2[^>]*>(.*?)<\/h2>/gi)].map(m => m[1].trim());
+
+const h2Texts = articlee?.content ? extractH2(articlee.content) : [];
+
+const slugify = (text) =>
+  text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+const tableOfContents = h2Texts.map(h2 => ({
+  id: slugify(h2),
+  label: h2
+}));
+
+const [progress, setProgress] = useState(0);
+
+useEffect(() => {
+  const handleScroll = () => {
+    const article = document.querySelector("article");
+    if (!article) return;
+
+    const totalHeight =
+      article.scrollHeight - window.innerHeight;
+
+    const windowScrollTop =
+      window.scrollY - article.offsetTop;
+
+    const progressValue =
+      (windowScrollTop / totalHeight) * 100;
+
+    setProgress(Math.min(Math.max(progressValue, 0), 100));
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
+
+const getTextFromHTML = (html = "") => {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent || div.innerText || "";
+};
+
+
+const countWords = (text = "") =>
+  text.trim().split(/\s+/).filter(Boolean).length;
+
+
+const calculateReadTime = (words) => {
+  return Math.max(1, Math.ceil(words / 200)) + " min read";
+};
+
+
+const articleText = getTextFromHTML(articlee?.content || "");
+const wordCount = countWords(articleText);
+const readTime = calculateReadTime(wordCount);
+const readableDate = new Date("2025-11-21T04:39:13.589Z").toLocaleDateString(
+  "en-US",
+  {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }
+);
+
+
+
+
+  // const tableOfContents = [
+  //   { id: "introduction", label: "Introduction" },
+  //   { id: "power", label: "The Power of AI Writing" },
+  //   { id: "getting-started", label: "Getting Started" },
+  //   { id: "best-practices", label: "Best Practices" },
+  //   { id: "applications", label: "Real-World Applications" },
+  //   { id: "future", label: "The Future" },
+  //   { id: "conclusion", label: "Conclusion" }
+  // ];
+
+  const addIdsToH2 = (html = "") => {
+  return html.replace(/<h2[^>]*>(.*?)<\/h2>/gi, (match, h2Text) => {
+    const id = slugify(h2Text);
+    return `<h2 id="${id}" style="scroll-margin-top: 6rem">${h2Text}</h2>`;
+  });
+};
+
+
+const contentWithIds = addIdsToH2(articlee?.content || "");
+
+
+
+  
 
 if (!articlee) {
   return <p className="p-10 text-center">Loading...</p>;
@@ -178,7 +260,7 @@ if (!articlee) {
 
       {/* Reading Progress Bar */}
       <div className="h-1 bg-primary/20 sticky top-16 z-40">
-        <div className="h-full bg-primary w-1/3 transition-all duration-300" />
+        <div className="h-full bg-primary transition-all duration-300" style={{width: `${progress}%`}} />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -199,39 +281,39 @@ if (!articlee) {
               {/* <p className="text-2xl text-muted-foreground">{article.subtitle}</p> */}
               
               <div className="flex items-center gap-6 text-muted-foreground">
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                   <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <span className="font-semibold text-primary">JD</span>
                   </div>
-                  {/* <div>
+                  <div>
                     <p className="font-medium text-foreground">{article.author}</p>
-                  </div> */}
-                </div>
-                <Separator orientation="vertical" className="h-6" />
+                  </div>
+                </div> */}
+                {/* <Separator orientation="vertical" className="h-6" /> */}
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4" />
-                  {article.readTime}
+                  {readTime}
                 </div>
-                <span>{article.date}</span>
+                <span>{readableDate}</span>
               </div>
 
-              <div className="flex gap-2">
+              {/* <div className="flex gap-2">
                 <Button variant="outline" size="sm">
                   <Share2 className="h-4 w-4 mr-2" />
                   Share
                 </Button>
-              </div>
+              </div> */}
 
               <Separator />
             </div>
 
             {/* Article Content */}
             <div className="prose-editor" 
-     dangerouslySetInnerHTML={{ __html: articlee.content }}>
+     dangerouslySetInnerHTML={{ __html: contentWithIds}}>
 </div>
 
             {/* Article Footer */}
-            <div className="mt-16 pt-8 border-t border-border">
+            {/* <div className="mt-16 pt-8 border-t border-border">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
@@ -244,7 +326,7 @@ if (!articlee) {
                 </div>
                 <Button className="btn-hero">Follow</Button>
               </div>
-            </div>
+            </div> */}
           </article>
 
           {/* Sidebar - Table of Contents */}

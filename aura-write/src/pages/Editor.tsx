@@ -257,307 +257,307 @@ const Editor = () => {
 
   return (
     <div className={`min-h-screen ${isDark ? "dark" : ""}`}>
-      <div className="bg-background min-h-screen transition-colors">
-        {/* Top Bar */}
-        <div className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-14">
+  <div className="bg-gradient-to-b from-background via-background/60 to-background/40 min-h-screen transition-colors">
 
-            {/* LEFT SIDE */}
-            <div className="flex items-center gap-3">
-              {/* Back */}
-              <RouterLink to="/dashboard">
-                <Button variant="ghost" size="sm" className="h-9">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back
-                </Button>
-              </RouterLink>
+    {/* ✨ GLASS NAVBAR */}
+    <div className="border-b border-white/10 bg-white/10 dark:bg-black/20 backdrop-blur-xl sticky top-0 z-50 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-14">
 
-              {/* 🔥 Dashboard Button */}
-              <RouterLink to="/dashboard">
-                <Button variant="outline" size="sm" className="h-9">
-                  Dashboard
-                </Button>
-              </RouterLink>
-            </div>
+          {/* LEFT SIDE */}
+          <div className="flex items-center gap-3">
 
-            {/* RIGHT SIDE */}
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-9"
-                onClick={() => setIsPreview(!isPreview)}
-              >
-                {isPreview ? (
-                  <>
-                    <Edit3 className="h-4 w-4 mr-2" />
-                    Edit
-                  </>
-                ) : (
-                  <>
-                    <Eye className="h-4 w-4 mr-2" />
-                    Preview
-                  </>
-                )}
+            {/* Back */}
+            <RouterLink to="/dashboard">
+              <Button variant="ghost" size="sm" className="h-9 rounded-lg hover:bg-white/10">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back
               </Button>
+            </RouterLink>
 
+            {/* Dashboard */}
+            <RouterLink to="/dashboard">
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
-                className="h-9"
-                onClick={() => setIsDark(!isDark)}
+                className="h-9 rounded-lg backdrop-blur-md bg-white/5 hover:bg-white/10"
               >
-                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                Dashboard
               </Button>
+            </RouterLink>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-9"
-                onClick={() => {
-                  saveToLocalStorage(editor.getHTML(), editor.getJSON());
-                  toast({
-                    title: "Saved",
-                    description: "Draft saved successfully",
-                  });
-                }}
-              >
-                <Save className="h-4 w-4 mr-2" />
-                Save
-              </Button>
-
-              <Button
-                size="sm"
-                className="h-9 bg-primary text-primary-foreground hover:bg-primary/90"
-                onClick={() => handlePublish()}
-              >
-                Publish
-              </Button>
-            </div>
           </div>
-        </div>
-      </div>
 
+          {/* RIGHT SIDE */}
+          <div className="flex items-center gap-2">
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid lg:grid-cols-[1fr_320px] gap-8">
-            {/* Editor Area */}
-            <div className="space-y-6">
-              {!isPreview && (
+            {/* Preview Toggle */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-9 rounded-lg hover:bg-white/10"
+              onClick={() => setIsPreview(!isPreview)}
+            >
+              {isPreview ? (
                 <>
-                  {/* Formatting Toolbar */}
-                  <Card className="p-3 border-border/50">
-                    <div className="flex flex-wrap gap-1">
-                      <Button
-                        variant={editor.isActive("bold") ? "secondary" : "ghost"}
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={() => editor.chain().focus().toggleBold().run()}
-                        title="Bold"
-                      >
-                        <Bold className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant={editor.isActive("italic") ? "secondary" : "ghost"}
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={() => editor.chain().focus().toggleItalic().run()}
-                        title="Italic"
-                      >
-                        <Italic className="h-4 w-4" />
-                      </Button>
-                      <Separator orientation="vertical" className="h-6" />
-                      <Button
-                        variant={editor.isActive("heading", { level: 1 }) ? "secondary" : "ghost"}
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                        title="Heading 1"
-                      >
-                        <Heading1 className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant={editor.isActive("heading", { level: 2 }) ? "secondary" : "ghost"}
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                        title="Heading 2"
-                      >
-                        <Heading2 className="h-4 w-4" />
-                      </Button>
-                      <Separator orientation="vertical" className="h-6" />
-                      <Button
-                        variant={editor.isActive("bulletList") ? "secondary" : "ghost"}
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={() => editor.chain().focus().toggleBulletList().run()}
-                        title="Bullet List"
-                      >
-                        <List className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant={editor.isActive("orderedList") ? "secondary" : "ghost"}
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                        title="Numbered List"
-                      >
-                        <ListOrdered className="h-4 w-4" />
-                      </Button>
-                      <Separator orientation="vertical" className="h-6" />
-                      <Button
-                        variant={editor.isActive("blockquote") ? "secondary" : "ghost"}
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                        title="Quote"
-                      >
-                        <Quote className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant={editor.isActive("codeBlock") ? "secondary" : "ghost"}
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                        title="Code Block"
-                      >
-                        <Code className="h-4 w-4" />
-                      </Button>
-                      <Separator orientation="vertical" className="h-6" />
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={addImage}
-                        title="Image"
-                      >
-                        <ImageIcon className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant={editor.isActive("link") ? "secondary" : "ghost"}
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={setLink}
-                        title="Link"
-                      >
-                        <Link2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </Card>
-
-                  {/* Title Input */}
-                  <div className="space-y-2 px-12">
-                    <Input
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      className="text-5xl font-display font-bold border-none shadow-none px-0 focus-visible:ring-0 placeholder:text-muted-foreground/40 bg-transparent"
-                      placeholder="Title"
-                    />
-                  </div>
+                  <Edit3 className="h-4 w-4 mr-2" />
+                  Edit
+                </>
+              ) : (
+                <>
+                  <Eye className="h-4 w-4 mr-2" />
+                  Preview
                 </>
               )}
+            </Button>
 
-              {/* Editor or Preview */}
-              <Card className="min-h-[600px] border-border/50">
-                {isPreview ? (
-                  <div className="px-12 py-8">
-                    <h1 className="font-display text-5xl font-bold mb-8">{title || "Untitled"}</h1>
-                    <div
-                      className="prose-editor max-w-none"
-                      dangerouslySetInnerHTML={{ __html: editor.getHTML() }}
-                    />
-                  </div>
-                ) : (
-                  <EditorContent editor={editor} />
-                )}
-              </Card>
-            </div>
+            {/* Dark Mode Toggle */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-9 rounded-lg hover:bg-white/10"
+              onClick={() => setIsDark(!isDark)}
+            >
+              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
 
-            {/* AI Tools Sidebar */}
-            <div className="space-y-4 lg:sticky lg:top-24 lg:h-fit">
-              {/* <Card className="p-5 space-y-4 border-border/50">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4" />
-                  <h3 className="font-semibold text-sm">AI Tools</h3>
-                </div>
-                <Separator />
-                <div className="space-y-1.5">
-                  {aiTools.map((tool, index) => (
-                    <Button
-                      key={index}
-                      variant="ghost"
-                      className="w-full justify-start h-9 text-sm"
-                      onClick={() => handleAIGenerate(tool.action)}
-                      disabled={isGenerating}
-                    >
-                      <tool.icon className="h-3.5 w-3.5 mr-2" />
-                      {tool.label}
-                    </Button>
-                  ))}
-                </div>
-              </Card> */}
+            {/* Save */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-9 rounded-lg hover:bg-white/10"
+              onClick={() => {
+                saveToLocalStorage(editor.getHTML(), editor.getJSON());
+                toast({
+                  title: "Saved",
+                  description: "Draft saved successfully",
+                });
+              }}
+            >
+              <Save className="h-4 w-4 mr-2" />
+              Save
+            </Button>
 
-              {/* Stats Card */}
-              <Card className="p-5 space-y-4 border-border/50">
-                <h3 className="font-semibold text-sm">Document Stats</h3>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Words</span>
-                    <span className="font-medium">
-                      {editor.state.doc.textContent.split(/\s+/).filter(Boolean).length}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Characters</span>
-                    <span className="font-medium">
-                      {editor.state.doc.textContent.length}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Reading time</span>
-                    <span className="font-medium">
-                      {Math.ceil(
-                        editor.state.doc.textContent.split(/\s+/).filter(Boolean).length / 200
-                      )}{" "}
-                      min
-                    </span>
-                  </div>
-                </div>
-              </Card>
-            </div>
+            {/* Publish */}
+            <Button
+              size="sm"
+              className="h-9 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 shadow-md"
+              onClick={() => handlePublish()}
+            >
+              Publish
+            </Button>
+
           </div>
         </div>
       </div>
-
-      {/* Link Dialog */}
-      <Dialog open={showLinkDialog} onOpenChange={setShowLinkDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Insert Link</DialogTitle>
-            <DialogDescription>
-              Enter the URL you want to link to
-            </DialogDescription>
-          </DialogHeader>
-          <Input
-            value={linkUrl}
-            onChange={(e) => setLinkUrl(e.target.value)}
-            placeholder="https://example.com"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                saveLink();
-              }
-            }}
-          />
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowLinkDialog(false)}>
-              Cancel
-            </Button>
-            <Button onClick={saveLink}>Insert</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
+
+    {/* MAIN CONTENT */}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="grid lg:grid-cols-[1fr_320px] gap-10">
+
+        {/* ===================== EDITOR AREA ===================== */}
+        <div className="space-y-8">
+
+          {/* TOOLBAR */}
+          {!isPreview && (
+            <Card className="p-3 border-white/10 bg-white/10 backdrop-blur-xl rounded-xl shadow-md">
+              <div className="flex flex-wrap gap-1">
+
+                <Button
+                  variant={editor.isActive("bold") ? "secondary" : "ghost"}
+                  size="sm"
+                  className="tool-btn"
+                  onClick={() => editor.chain().focus().toggleBold().run()}
+                >
+                  <Bold className="h-4 w-4" />
+                </Button>
+
+                <Button
+                  variant={editor.isActive("italic") ? "secondary" : "ghost"}
+                  size="sm"
+                  className="tool-btn"
+                  onClick={() => editor.chain().focus().toggleItalic().run()}
+                >
+                  <Italic className="h-4 w-4" />
+                </Button>
+
+                <Separator orientation="vertical" className="h-6" />
+
+                <Button
+                  variant={editor.isActive("heading", { level: 1 }) ? "secondary" : "ghost"}
+                  size="sm"
+                  className="tool-btn"
+                  onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                >
+                  <Heading1 className="h-4 w-4" />
+                </Button>
+
+                <Button
+                  variant={editor.isActive("heading", { level: 2 }) ? "secondary" : "ghost"}
+                  size="sm"
+                  className="tool-btn"
+                  onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                >
+                  <Heading2 className="h-4 w-4" />
+                </Button>
+
+                <Separator orientation="vertical" className="h-6" />
+
+                <Button
+                  variant={editor.isActive("bulletList") ? "secondary" : "ghost"}
+                  size="sm"
+                  className="tool-btn"
+                  onClick={() => editor.chain().focus().toggleBulletList().run()}
+                >
+                  <List className="h-4 w-4" />
+                </Button>
+
+                <Button
+                  variant={editor.isActive("orderedList") ? "secondary" : "ghost"}
+                  size="sm"
+                  className="tool-btn"
+                  onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                >
+                  <ListOrdered className="h-4 w-4" />
+                </Button>
+
+                <Separator orientation="vertical" className="h-6" />
+
+                <Button
+                  variant={editor.isActive("blockquote") ? "secondary" : "ghost"}
+                  size="sm"
+                  className="tool-btn"
+                  onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                >
+                  <Quote className="h-4 w-4" />
+                </Button>
+
+                <Button
+                  variant={editor.isActive("codeBlock") ? "secondary" : "ghost"}
+                  size="sm"
+                  className="tool-btn"
+                  onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+                >
+                  <Code className="h-4 w-4" />
+                </Button>
+
+                <Separator orientation="vertical" className="h-6" />
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="tool-btn"
+                  onClick={addImage}
+                >
+                  <ImageIcon className="h-4 w-4" />
+                </Button>
+
+                <Button
+                  variant={editor.isActive("link") ? "secondary" : "ghost"}
+                  size="sm"
+                  className="tool-btn"
+                  onClick={setLink}
+                >
+                  <Link2 className="h-4 w-4" />
+                </Button>
+
+              </div>
+            </Card>
+          )}
+
+          {/* TITLE INPUT */}
+          {!isPreview && (
+            <div className="px-2">
+              <Input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="text-5xl md:text-3xl font-display font-bold border-none shadow-none px-0 bg-transparent focus-visible:ring-0 placeholder:text-muted-foreground/40"
+                placeholder="Your amazing title..."
+              />
+            </div>
+          )}
+
+          {/* EDITOR BODY */}
+          <Card className="min-h-[650px] bg-white/10 dark:bg-black/20 backdrop-blur-xl border-white/10 rounded-xl shadow-lg">
+            {isPreview ? (
+              <div className="px-10 py-8">
+                <h1 className="font-display text-5xl font-bold mb-8">{title || "Untitled"}</h1>
+                <div
+                  className="prose prose-lg prose-invert max-w-none opacity-95"
+                  dangerouslySetInnerHTML={{ __html: editor.getHTML() }}
+                />
+              </div>
+            ) : (
+              <EditorContent editor={editor} className="prose-editor editor-container p-5" />
+            )}
+          </Card>
+        </div>
+
+        {/* ===================== SIDEBAR ===================== */}
+        <div className="space-y-4 lg:sticky lg:top-24 lg:h-fit">
+
+          {/* STATS CARD */}
+          <Card className="p-5 space-y-4 border-white/10 bg-white/10 dark:bg-black/20 backdrop-blur-xl rounded-xl shadow-lg">
+            <h3 className="font-semibold text-sm opacity-90">Document Stats</h3>
+
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Words</span>
+                <span className="font-medium">
+                  {editor.state.doc.textContent.split(/\s+/).filter(Boolean).length}
+                </span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Characters</span>
+                <span className="font-medium">
+                  {editor.state.doc.textContent.length}
+                </span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Reading time</span>
+                <span className="font-medium">
+                  {Math.ceil(
+                    editor.state.doc.textContent.split(/\s+/).filter(Boolean).length / 200
+                  )}{" "}
+                  min
+                </span>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  {/* Link Dialog */}
+  <Dialog open={showLinkDialog} onOpenChange={setShowLinkDialog}>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Insert Link</DialogTitle>
+        <DialogDescription>Add a URL to link from your text.</DialogDescription>
+      </DialogHeader>
+
+      <Input
+        value={linkUrl}
+        onChange={(e) => setLinkUrl(e.target.value)}
+        placeholder="https://example.com"
+        onKeyDown={(e) => e.key === "Enter" && saveLink()}
+      />
+
+      <DialogFooter>
+        <Button variant="outline" onClick={() => setShowLinkDialog(false)}>
+          Cancel
+        </Button>
+        <Button onClick={saveLink}>Insert</Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+</div>
+
   );
 };
 

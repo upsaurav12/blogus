@@ -76,6 +76,11 @@ All colors MUST be HSL.
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+
 @layer utilities {
   .shadow-soft {
     box-shadow: var(--shadow-soft);
@@ -102,10 +107,9 @@ All colors MUST be HSL.
     @apply font-display text-3xl font-bold mt-12 mb-4 leading-tight;
   }
   
-  .prose-editor p {
-    @apply text-xl leading-relaxed mb-8 font-light;
-    letter-spacing: -0.003em;
-  }
+.prose-editor p {
+  @apply text-base leading-normal mb-1;
+}
   
   .prose-editor strong {
     @apply font-semibold;
@@ -145,13 +149,18 @@ All colors MUST be HSL.
     @apply absolute -left-8 text-muted-foreground font-medium;
   }
   
-  .prose-editor pre {
-    @apply bg-muted rounded-lg p-6 my-8 overflow-x-auto;
-  }
-  
-  .prose-editor code {
-    @apply bg-muted px-2 py-1 rounded text-base font-mono;
-  }
+.prose-editor pre {
+  @apply bg-muted rounded-lg p-4 my-4 overflow-x-auto;
+  white-space: pre-wrap;
+  overflow-y: auto;      /* allow scrolling vertically */
+  max-height: 350px;     /* expands until this height */
+}
+
+.prose-editor pre code {
+  @apply bg-transparent p-0 leading-relaxed;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
   
   .prose-editor pre code {
     @apply bg-transparent p-0;
